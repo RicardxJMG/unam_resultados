@@ -41,11 +41,19 @@ def get_oferta(url:str,driver_path: str = "C:/WebDrivers/chromedriver.exe") -> p
         driver.quit()
         return None
     
-    area_map = {}
+    rename_cols = {'Área': 'area', 
+                   'Clave': 'id_carrera',
+                   'Plantel donde se imparte': 'plantel',
+                   'Oferta Licenciatura 2025': 'oferta_2025',
+                   'Oferta Licenciatura 2024': 'oferta_2024',
+                   'Demanda Licenciatura 2024': 'demanda_2024',}
     
+    df_oferta.rename(columns=rename_cols, inplace=True)
+    df_oferta.columns = [col.lower() for col in df_oferta.columns]
+    area_map = {'1': 'A1', '2': 'A2', '3': 'A3', '4': 'A4'}
+    df_oferta['area'] = df_oferta['area'].map(area_map)
     
     print('> Extracción de datos completada.')
-    print(f'> Se encontraron {len(df_oferta)} registros de oferta de lugares.')
     driver.quit()
     return df_oferta
     
@@ -58,6 +66,13 @@ def get_oferta(url:str,driver_path: str = "C:/WebDrivers/chromedriver.exe") -> p
 if __name__ == '__main__': 
     
     url = 'https://www.dgae.unam.mx/Licenciatura2025/oferta_lugares/oferta_licenciatura2025.html'
+    print(f'::: Iniciando scrapping de oferta de lugares de la UNAM:::\n')
     data = get_oferta(url)
     
+    print(f'::: Scrapping finalizado. Se encontraron {len(data)} registros de oferta de lugares :::\n')
+    print(data.sample(7))
     
+    
+    os.makedirs('./datos/', exist_ok = True)
+    
+    data.to_csv('./datos/oferta_lugares_unam_2025_2024.csv', index=False)
