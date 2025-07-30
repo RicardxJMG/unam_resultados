@@ -1,10 +1,11 @@
+
 #%%
-import os 
+# import os 
 import pandas as pd 
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from scrapping_puntaje import init_driver, get_main_content 
-
+#%%
 
 def get_oferta(url:str,driver_path: str = "C:/WebDrivers/chromedriver.exe") -> pd.DataFrame|None:
     if url is None:
@@ -58,11 +59,6 @@ def get_oferta(url:str,driver_path: str = "C:/WebDrivers/chromedriver.exe") -> p
     return df_oferta
     
 
-
-
-
-
-#%%
 if __name__ == '__main__': 
     
     url = 'https://www.dgae.unam.mx/Licenciatura2025/oferta_lugares/oferta_licenciatura2025.html'
