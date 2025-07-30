@@ -6,9 +6,9 @@ Este repositorio contiene scripts desarrollados en Python para automatizar la ex
 
 Este repositorio incluye dos scripts principales:
 
-1. **scrapping_puntaje**: Accede a cada una de las páginas de resultados por área, carrera y escuela asociadas para obtener tres tablas distintas: una con el contenido general de los resultados, otra con los nombres de las facultades/escuelas, y otra relacionada con las carreras. Los datos pueden consultarse en: [Resultados área 1](https://www.dgae.unam.mx/Licenciatura2025/resultados/15.html), [Resultados área 2](https://www.dgae.unam.mx/Licenciatura2025/resultados/25.html), [Resultados área 3](https://www.dgae.unam.mx/Licenciatura2025/resultados/35.html) y [Resultados área 4](https://www.dgae.unam.mx/Licenciatura2025/resultados/45.html).
+1. **scraping_puntaje**: Accede a cada una de las páginas de resultados por área, carrera y escuela asociadas para obtener tres tablas distintas: una con el contenido general de los resultados, otra con los nombres de las facultades/escuelas, y otra relacionada con las carreras. Los datos pueden consultarse en: [Resultados área 1](https://www.dgae.unam.mx/Licenciatura2025/resultados/15.html), [Resultados área 2](https://www.dgae.unam.mx/Licenciatura2025/resultados/25.html), [Resultados área 3](https://www.dgae.unam.mx/Licenciatura2025/resultados/35.html) y [Resultados área 4](https://www.dgae.unam.mx/Licenciatura2025/resultados/45.html).
 
-2. **scrapping_oferta**: Extrae la tabla de oferta de lugares de los años 2024 y 2025 para cada carrera y área. La tabla fue obtenida desde la página [Oferta de lugares](https://www.dgae.unam.mx/Licenciatura2025/oferta_lugares/oferta_licenciatura2025.html).
+2. **scraping_oferta**: Extrae la tabla de oferta de lugares de los años 2024 y 2025 para cada carrera y área. La tabla fue obtenida desde la página [Oferta de lugares](https://www.dgae.unam.mx/Licenciatura2025/oferta_lugares/oferta_licenciatura2025.html).
 
 **Las páginas anteriores no son estáticas**, por lo que el contenido podría no estar disponible hasta el próximo concurso de selección.
 

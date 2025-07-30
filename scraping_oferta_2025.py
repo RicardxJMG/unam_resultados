@@ -4,7 +4,7 @@
 import pandas as pd 
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from scrapping_puntaje import init_driver, get_main_content 
+from scraping_puntaje import init_driver, get_main_content 
 #%%
 
 def get_oferta(url:str,driver_path: str = "C:/WebDrivers/chromedriver.exe") -> pd.DataFrame|None:
