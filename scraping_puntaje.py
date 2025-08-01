@@ -9,7 +9,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-#%%
+
 
 def init_driver(driver_path: str = "C:/WebDrivers/chromedriver.exe") -> webdriver.Chrome | None:
     print("> Iniciando driver...")
@@ -79,7 +79,7 @@ def get_scores_career(driver: webdriver, schools: list[webdriver.Chrome], career
     try:
         for school in schools:
             school_name: str = school.text.strip()
-            school_id: str = school.get_attribute('href')[-10:-5]
+            school_id: str = str(area) + school.get_attribute('href')[-9:-5]
             schools_info.add((school_id, school_name))
 
             print(f">> Obteniendo resultados de la carrera: {career_id} en la escuela: {school_name}")
@@ -99,7 +99,7 @@ def get_scores_career(driver: webdriver, schools: list[webdriver.Chrome], career
                     score_table_bs = BeautifulSoup(tabla_html, 'html.parser')
                     
                     df_career_scores = pd.concat([df_career_scores, 
-                                                get_scores_from_school(score_table_bs, school_id, career_id, area)], ignore_index=True)
+                                                get_scores_from_school(scores_table=score_table_bs, school_id=school_id, career_id=career_id, area=area)], ignore_index=True)
 
                     table_finding = True
                     break  
@@ -165,7 +165,7 @@ def get_scores_area(driver: webdriver, area_page: List[webdriver.Chrome], area: 
     return [df_area_scores, career_df, schools_info]
 
 def get_scores(pages: list[str]) -> List[pd.DataFrame] | None:
-    df_area_scores = pd.DataFrame(columns=['id_aspirante', 'id_facultad','id_area', 'id_carrera', 'puntaje', 'acreditado'])
+    df_area_scores = pd.DataFrame(columns=['id_aspirante', 'id_area','id_facultad', 'id_carrera', 'puntaje', 'acreditado'])
     df_career_info = pd.DataFrame(columns=['id_carrera', 'id_area', 'carrera'])
     schools_info: set[tuple] = set()
     
