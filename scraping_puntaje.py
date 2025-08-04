@@ -32,7 +32,7 @@ def get_main_content(driver: webdriver.Chrome, url: str) -> webdriver.Chrome:
 
     return main_content
 
-def get_scores_from_school(scores_table: BeautifulSoup, career_id: str, school_id: str, area: int) -> pd.DataFrame:
+def get_scores_from_school(scores_table: BeautifulSoup, career_id: str, school_name: str, area: int) -> pd.DataFrame:
     acreditado_dict: dict = {
                 'S': 'Seleccionado',
                 '': 'No seleccionado',
@@ -61,7 +61,7 @@ def get_scores_from_school(scores_table: BeautifulSoup, career_id: str, school_i
         df_scores['acreditado'] = df_scores['acreditado'].map(acreditado_dict)
         
         df_scores['id_carrera'] = [career_id]*rows
-        df_scores['id_facultad'] = [school_id]*rows
+        df_scores['facultad'] = [school_name]*rows
         df_scores['id_area'] = [area_dict[area]]*rows      
 
         print(f'>>> Resultados obtenidos para la carrera {career_id} del área {area_dict[area]}')
@@ -73,13 +73,13 @@ def get_scores_from_school(scores_table: BeautifulSoup, career_id: str, school_i
     return df_scores
 
 def get_scores_career(driver: webdriver, schools: list[webdriver.Chrome], career_id: str, area: int) -> List[Any]:
-    df_career_scores = pd.DataFrame(columns=['id_aspirante', 'id_area', 'id_facultad', 'id_carrera', 'puntaje', 'acreditado'])
+    df_career_scores = pd.DataFrame(columns=['id_aspirante', 'id_area', 'facultad', 'id_carrera', 'puntaje', 'acreditado'])
     schools_info: set[list] = set()
     
     try:
         for school in schools:
             school_name: str = school.text.strip()
-            school_id: str = str(area) + school.get_attribute('href')[-9:-5]
+            school_id: str = school.get_attribute('href')[-9:-5]
             schools_info.add((school_id, school_name))
 
             print(f">> Obteniendo resultados de la carrera: {career_id} en la escuela: {school_name}")
@@ -99,7 +99,7 @@ def get_scores_career(driver: webdriver, schools: list[webdriver.Chrome], career
                     score_table_bs = BeautifulSoup(tabla_html, 'html.parser')
                     
                     df_career_scores = pd.concat([df_career_scores, 
-                                                get_scores_from_school(scores_table=score_table_bs, school_id=school_id, career_id=career_id, area=area)], ignore_index=True)
+                                                get_scores_from_school(scores_table=score_table_bs, school_name=school_name, career_id=career_id, area=area)], ignore_index=True)
 
                     table_finding = True
                     break  
@@ -124,7 +124,7 @@ def get_scores_career(driver: webdriver, schools: list[webdriver.Chrome], career
     
 def get_scores_area(driver: webdriver, area_page: List[webdriver.Chrome], area: int) -> List[Any]:    
 
-    df_area_scores = pd.DataFrame(columns=['id_aspirante','id_area', 'id_facultad', 'id_carrera', 'puntaje', 'acreditado'])
+    df_area_scores = pd.DataFrame(columns=['id_aspirante','id_area', 'facultad', 'id_carrera', 'puntaje', 'acreditado'])
     
     career_info: dict[str, set] = {
         #this dictionary storage info of each career
@@ -165,7 +165,7 @@ def get_scores_area(driver: webdriver, area_page: List[webdriver.Chrome], area: 
     return [df_area_scores, career_df, schools_info]
 
 def get_scores(pages: list[str]) -> List[pd.DataFrame] | None:
-    df_area_scores = pd.DataFrame(columns=['id_aspirante', 'id_area','id_facultad', 'id_carrera', 'puntaje', 'acreditado'])
+    df_area_scores = pd.DataFrame(columns=['id_aspirante', 'id_area','facultad', 'id_carrera', 'puntaje', 'acreditado'])
     df_career_info = pd.DataFrame(columns=['id_carrera', 'id_area', 'carrera'])
     schools_info: set[tuple] = set()
     
