@@ -4,7 +4,7 @@ import os
 import pandas as pd 
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from scraping_puntaje import init_driver, get_main_content 
+from scraping.scraping_puntaje import init_driver, get_main_content 
 #%%
 
 def get_oferta(url:str,driver_path: str = "C:/WebDrivers/chromedriver.exe") -> pd.DataFrame|None:
@@ -62,13 +62,13 @@ def get_oferta(url:str,driver_path: str = "C:/WebDrivers/chromedriver.exe") -> p
 if __name__ == '__main__': 
     
     url = 'https://www.dgae.unam.mx/Licenciatura2025/oferta_lugares/oferta_licenciatura2025.html'
-    print(f'::: Iniciando scrapping de oferta de lugares de la UNAM:::\n')
+    print(f'::: Iniciando scrapping de oferta de lugares de la UNAM :::\n')
     data = get_oferta(url)
     
     print(f'::: Scrapping finalizado. Se encontraron {len(data)} registros de oferta de lugares :::\n')
     print(data.sample(7))
     
+    path_data = './../datos/raw/'
+    os.makedirs(path_data, exist_ok = True)
     
-    os.makedirs('./datos/', exist_ok = True)
-    
-    data.to_csv('./datos/oferta_lugares_unam_2025_2024.csv', index=False)
+    data.to_csv(path_data + 'oferta_lugares_unam_2025_2024.csv', index=False)

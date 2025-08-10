@@ -20,6 +20,10 @@ pip install -r requirements.txt
 
 Por otro lado, este proyecto utiliza el navegador Google Chrome y su driver correspondiente, por lo que será necesario que lo descargarlo y adaptar ambos scripts a la ruta correspondiente del driver. Para más información sobre ChromeDriver consulta [aquí](https://developer.chrome.com/docs/chromedriver/downloads).
 
+## En proceso
+
+Se está trabajando en una aplicación web con [shiny](https://shiny.posit.co/) con python para visualizar los datos. 
+
 ## Consideraciones legales y éticas
 
 Los datos extraídos por estos scripts provienen de páginas públicas del sitio oficial de la DGAE-UNAM.

@@ -202,7 +202,7 @@ if __name__ == "__main__":
     # Testeando 
     
     pages = [f'https://www.dgae.unam.mx/Licenciatura2025/resultados/{i}5.html' for i in range(1,5)]    
-    datos_path = './datos'
+    datos_path = './../datos/raw'
     df_scores, df_career_info, df_school_info = get_scores(pages=pages)
     if df_scores.empty is not None:
         os.makedirs(datos_path, exist_ok=True)
