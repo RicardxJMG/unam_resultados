@@ -3,6 +3,7 @@
 DROP TABLE IF EXISTS areas_info;
 DROP TABLE IF EXISTS facultades_info;
 DROP TABLE IF EXISTS carreras_info;
+DROP TABLE IF EXISTS carreras_descripcion;
 DROP TABLE IF EXISTS resultados_2025;
 DROP TABLE IF EXISTS oferta_2024_2025;
 
@@ -21,6 +22,17 @@ CREATE TABLE carreras_info(
     id_area TEXT,
     carrera TEXT,
     FOREIGN KEY (id_area) REFERENCES areas_info(id_area)
+);
+
+CREATE TABLE carreras_descripcion(
+    id_carrera TEXT,
+    id_area TEXT,
+    id_facultad TEXT, 
+    oferta INTEGER,
+    aciertos_minimos INTEGER,
+    FOREIGN KEY (id_carrera) REFERENCES carreras_info(id_carrera),
+    FOREIGN KEY (id_area) REFERENCES areas_info(id_area),
+    FOREIGN KEY (id_facultad) REFERENCES facultades_info(id_facultad)
 );
 
 CREATE TABLE resultados_2025(

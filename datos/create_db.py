@@ -1,22 +1,27 @@
 #%%
-import os 
+from pathlib import Path
 import pandas as pd
 import sqlite3 as sql 
-# from sqlalchemy import create_engine
 
-DB_DIR = './processed'
+
+DB_DIR = Path(__file__).parent / 'processed'
 DB_FILE = 'unam_resultados_2025.db'
-EXCEL_FILE = os.path.join(DB_DIR, 'data_clean.xlsx')
+DB_PATH = DB_DIR / DB_FILE
+
+EXCEL_FILE = DB_DIR / 'data_clean.xlsx'
 SHEET_NAMES = [ 'areas_info',
                 'facultades_info',
                 'carreras_info',
+                'carreras_descripcion',
                 'resultados_2025',
                 'oferta_2024_2025']
 
-SQL_SCHEMA_FILE = './queries/create_db.sql' 
+SQL_SCHEMA_FILE = Path(__file__).parent / 'queries'/ 'create_db.sql'
 
-def create_database(db_path:str, schema_path:str) -> sql.Connection:
-    with open(schema_path, 'r') as f: query_script = f.read()
+
+def create_database(db_path: Path, schema_path: Path) -> sql.Connection:
+    with schema_path.open('r') as f: 
+        query_script = f.read()
     
     conn = sql.connect(db_path)
     cursor = conn.execute("PRAGMA foreign_keys = ON;")
@@ -24,20 +29,30 @@ def create_database(db_path:str, schema_path:str) -> sql.Connection:
     conn.commit()
     return conn
 
-def excel_to_db(conn: sql.Connection, excel_path:str, sheets: list) -> None: 
+def excel_to_db(conn: sql.Connection, excel_path: Path, sheets: list) -> None: 
+    id_columns = {
+        'id_carrera': 3,
+        'id_facultad': 4,
+        'id_aspirante': 6
+    }
+    
     dfs = pd.read_excel(io=excel_path, sheet_name=sheets)
-    for sheet, df in dfs.items(): 
-        df.to_sql(name=sheet, con=conn,if_exists='append',index=False)
+    
+    for sheet, df in dfs.items():
+        for col in df.columns:
+            if col in id_columns:
+                df[col] = df[col].astype(str).str.zfill(id_columns[col])
+        
+        df.to_sql(name=sheet,con=conn,if_exists='append',index=False,
+                  dtype={col: 'TEXT' for col in id_columns if col in df.columns})
+        
         print(f'Datos insertados en la tabla {sheet}')
         
-        
 def main() -> None:
-    os.makedirs(DB_DIR, exist_ok=True)
-    db_path = os.path.join(DB_DIR, DB_FILE)    
-    
     try: 
-        conn = create_database(db_path= db_path, schema_path=SQL_SCHEMA_FILE)
-        #testing
+        DB_DIR.mkdir(parents=True, exist_ok=True)
+        
+        conn = create_database(db_path=DB_PATH, schema_path=SQL_SCHEMA_FILE)
         print('-> Base de datos creada correctamente\n')
         excel_to_db(conn=conn, excel_path=EXCEL_FILE, sheets=SHEET_NAMES)
     except Exception as e:

@@ -177,7 +177,7 @@ def get_scores(pages: list[str]) -> List[pd.DataFrame] | None:
             main_content = get_main_content(driver, page)
             if main_content is not None:
                 career_content = main_content.find_elements(by=By.CLASS_NAME, value='post-preview')
-                #modificar porque ahora devuelve hasta tres valores
+                
                 tmp_scores, tmp_career, tmp_schools = get_scores_area(driver=driver, area_page=career_content,area =  area+1)
                 df_area_scores = pd.concat([df_area_scores,tmp_scores], ignore_index=True)
                 df_career_info = pd.concat([df_career_info, tmp_career], ignore_index=True)
