@@ -10,7 +10,7 @@ WITH demanda_2025 AS (
 )
 
 SELECT
-    a.area,
+    a.id_area,
     c.carrera,
     f.facultad,
     d25.demanda_2025,

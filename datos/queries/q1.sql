@@ -5,7 +5,9 @@ SELECT
     a.area,
     r.acreditado AS resultado,
     COUNT(*) AS n_aspirantes,
-    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS porcentaje
+    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS porcentaje,
+    COUNT(CASE WHEN r.puntaje == 120 THEN 1 END) AS puntaje_perfecto   
+
 FROM 
     resultados_2025 r
 JOIN 

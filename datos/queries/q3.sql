@@ -1,7 +1,7 @@
 --- calculo de porcentaje por carrera y estado de acreditado
 
 SELECT 
-    c.id_carrera,
+    r.id_area,
     c.carrera,
     r.acreditado AS resultado,
     COUNT(*) AS n_aspirantes,

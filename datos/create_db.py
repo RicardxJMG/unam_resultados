@@ -17,12 +17,11 @@ SHEET_NAMES = [ 'areas_info',
                 'oferta_2024_2025']
 
 SQL_SCHEMA_FILE = Path(__file__).parent / 'queries'/ 'create_db.sql'
-
+#%%
 
 def create_database(db_path: Path, schema_path: Path) -> sql.Connection:
-    with schema_path.open('r') as f: 
-        query_script = f.read()
-    
+    query_script = schema_path.read_text(encoding='utf-8') 
+        
     conn = sql.connect(db_path)
     cursor = conn.execute("PRAGMA foreign_keys = ON;")
     cursor.executescript(query_script)
@@ -36,7 +35,7 @@ def excel_to_db(conn: sql.Connection, excel_path: Path, sheets: list) -> None:
         'id_aspirante': 6
     }
     
-    dfs = pd.read_excel(io=excel_path, sheet_name=sheets)
+    dfs = pd.read_excel(io=excel_path.as_posix(), sheet_name=sheets, engine='openpyxl')
     
     for sheet, df in dfs.items():
         for col in df.columns:

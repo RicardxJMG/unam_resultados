@@ -1,7 +1,7 @@
 --- calculo de porcentaje por escuela/facultad y estado de acreditado
 
 SELECT 
-    f.id_facultad,
+    r.id_area,  
     f.facultad,
     r.acreditado AS resultado,
     COUNT(*) AS n_aspirantes,

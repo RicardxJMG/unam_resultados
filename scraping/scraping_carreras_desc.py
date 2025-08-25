@@ -70,7 +70,8 @@ def scrape_carrera_descripcion(pages:list ) -> pd.DataFrame:
                 escuela.click()
 
                 try:
-                    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'span')))
+                    time.sleep(3)
+                    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.TAG_NAME, 'span')))
                     info = extract_carrera_info(driver)
                     if info:
                         resultados.append(info)
