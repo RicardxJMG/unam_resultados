@@ -10,6 +10,7 @@ import plotly.io as pio
 import plotly.graph_objects as go
 import plotly.express as px
 
+from typing import Any
 from shiny import App, Inputs,Outputs,Session, render, ui, reactive
 # from shinywidgets import render_plotly, render_widget
 
@@ -32,11 +33,11 @@ def database_connection(data_path: Path = DATA_PATH) -> Generator[sql.Connection
         if conn is not None:
             conn.close()
 
-def get_query(query: str) -> pd.DataFrame:
+def get_query(query: str) -> pd.DataFrame: 
     with database_connection() as conn:
         return pd.read_sql(sql=query, con=conn)
     
-queries_files: list[str] = [f'q{i+1}{ext}' for i,ext in enumerate(4*['.sql'])]
+queries_files: list[str] = [f'q{i+1}{ext}' for i,ext in enumerate(5*['.sql'])]
 # q_text: list[str] = []
 dfs: list[pd.DataFrame] = [] 
 
@@ -44,7 +45,7 @@ for q in queries_files:
     q_text = (QUERIES_PATH/q).read_text(encoding = 'utf-8')
     dfs.append(get_query(query=q_text))
 
-        
+
 #%%     
 # building app-web
 # Observaciones para mejorar  
@@ -58,7 +59,11 @@ for q in queries_files:
 _areas_dict = {'A1': 'Área 1', 'A2': 'Área 2', 'A3': 'Área 3', 'A4':'Área 4' }
 _all_areas = {"all": 'Todos'}   
 _all_areas.update(_areas_dict)
-app_ui:App = ui.page_fluid(
+_scatter_selector = {'demanda': 'Demanda', 'oferta': 'Oferta', 'aciertos_minimos': 'Aciertos mínimos', 'seleccionados': 'Seleccionados'}
+
+
+
+app_ui = ui.page_fluid(
     ui.panel_title("Análisis de Resultados de la UNAM 2025", "Análisis de resultados"),
 
     # ----  Gráfico de demanda por área
@@ -137,25 +142,89 @@ app_ui:App = ui.page_fluid(
                 )
             )  
         )        
-    ), 
+    ),    
     ui.div(
-        ui.h3('Top facultades con mayor demanda por área'), 
+        ui.h4('Top facultades con mayor demanda por área'), 
         ui.output_plot('demanda_facultades')
     ),
-    # Gráficos sobre estado de acreditado de los aspirantes
+    
+    # Gráfico scatter
     
     ui.div(
-        ui.row()
-        
-        
+        ui.h3("Relación entre aciertos mínimos, demanda y total de seleccionados"),
+        ui.row(
+            ui.column(
+                2,
+                ui.input_select( 
+                    id = "_scatter_selector",
+                    label = "Seleccionar área",
+                    choices= _all_areas,
+                    selected= "all"                
+                ) 
+            ),
+            ui.column(
+                2, 
+                ui.input_select(
+                    id = "_scatter_x",
+                    label = "Eje x",
+                    choices= _scatter_selector,
+                    selected= 'oferta'
+                )
+            ),
+            ui.column(
+                2, 
+                ui.input_select(
+                    id = '_scatter_y', 
+                    label = 'Eje y', 
+                    choices= _scatter_selector,
+                    selected= 'demanda'
+                )
+            ), 
+            ui.column(
+                2, 
+                ui.input_select( 
+                    id = '_scatter_size',
+                    label = 'Tamaño',
+                    choices = _scatter_selector, 
+                    selected= 'aciertos_minimos'
+                )
+            )   
+        ),
+        ui.row(
+            ui.column(
+                12, ui.card( 
+                    ui.h4("Relación de aciertos mínimos, oferta y demanda"),
+                    ui.output_plot("scatter_oda")                
+                )
+            )
+        )    
+    ), 
+    
+    ui.div(
+        ui.h3("Distribución de los resultados obtenidos por los aspirantes"),
+        ui.row(
+            ui.column(
+                2, 
+                ui.input_select(
+                    id = '_dist_areas', 
+                    label = "Seleccionar área", 
+                    choices= _all_areas, 
+                    selected= 'all'
+                )
+            )
+        ), 
+        ui.row(
+            ui.column(
+                12,ui.card(
+                    ui.h4('Distribución de resultados'),
+                    ui.output_plot(id = 'results_distribution')
+                )
+            )
+        )
         
         
     )
-    
-    
-    
-    
-    
+        
 )
 
 
@@ -253,7 +322,9 @@ def server(input: Inputs, output: Outputs, session: Session):
 
         return fig
     
-    @output 
+    
+    # demanda por facultad
+    
     @render.plot(alt = 'Escuelas con mayor demanda por área')
     def demanda_facultades(): 
         df_facultades = dfs[1]
@@ -264,15 +335,115 @@ def server(input: Inputs, output: Outputs, session: Session):
     
         return fig
     
+     # -------
+    
+    # Esta parte corresponde al scatter plot, 
     
     
+    # Reactive calculation that returns the filtered data and axis selections
+    @reactive.calc
+    def scatter_data() -> list[pd.DataFrame,str]:
+        df = dfs[4].copy()
+        area_selected = input._scatter_selector()
+        x_axis = input._scatter_x()
+        y_axis = input._scatter_y()
+        size = input._scatter_size()
+        
+        return [df, x_axis, y_axis, size]
+    
+    """ 
+    
+    Esta parte en teoría es para hacer más dinámicos los selectores 
+    
+    @reactive.effect
+    def update_selectors():
+        x_axis = input._scatter_x()
+        y_axis = input._scatter_y()
+        size = input._scatter_size()
+        
+        keys = list(_scatter_selector.keys())
+        
+        # Handle y-axis conflicts
+        if y_axis in [x_axis, size]:  
+            selector = _scatter_selector.copy()
+            for key in keys: 
+                if key not in [x_axis, size]:
+                    selector_copy = _scatter_selector.copy()
+                    selector_copy.pop(x_axis)
+                    selector_copy.pop(size)
+                    ui.update_select( 
+                        id='_scatter_y',  # Fixed typo: was '_scatter_select'
+                        label='Eje y: ' + str(_scatter_selector[key]), 
+                        choices=selector_copy,
+                        selected=key
+                    )
+                    break
+                    
+        # Handle size conflicts
+        if size in [x_axis, y_axis]:  
+            selector = _scatter_selector.copy()
+            for key in keys: 
+                if key not in [x_axis, y_axis]:
+                    selector_copy = _scatter_selector.copy()
+                    selector_copy.pop(x_axis)
+                    selector_copy.pop(y_axis)
+                    ui.update_select(
+                        id='_scatter_size',
+                        label='Tamaño',
+                        choices=selector_copy,
+                        selected=key
+                    )
+                    break
+ """
+    
+    @render.plot
+    def scatter_oda():
+        df_scatter, x_axis, y_axis, size = scatter_data()  # Use the calc function
+        
+        fig, ax = plt.subplots()
+        ax.scatter(data=df_scatter, x=x_axis, y=y_axis, s=size)
+        
+        return fig
+    
+    
+    # -------------------
+    
+    # Esta parte corresponde al gráfico de distribución de resultados
+    
+    
+    @reactive.calc 
+    def distribution_filter() -> pd.DataFrame: 
+        area   = input._dist_areas()
+        
+        sql = "SELECT * FROM resultados_2025"
+        with database_connection() as conn: 
+            if  area == 'all':  return pd.read_sql(sql = sql, con= conn)
+        
+            sql = sql + f" WHERE id_area = '{area}'"
+            return pd.read_sql(sql = sql, con = conn)
+                
+        
+    @render.plot
+    def results_distribution(): 
+        df = distribution_filter()
+        
+        fig,ax = plt.subplots()
+        
+        ax.hist(data = df, x='puntaje', density=True, bins = 30)
+        
+        return fig
+            
     
     
     
     
 # Crear la aplicación
-app = App(app_ui, server)
+app: App = App(app_ui, server)
 
 if __name__ == "__main__":
     app.run()
+
 # %%
+
+
+
