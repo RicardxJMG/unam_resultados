@@ -1,6 +1,4 @@
-from config import *
-from ui import ui_page
-from server import server
+from core import ui_page, server
 from shiny import App
 
 app: App = App(ui_page, server)

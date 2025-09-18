@@ -1,10 +1,11 @@
-from data_manager import DataManager
+from .data_manager import DataManager
 from pathlib import Path
 import plotly.io as pio
 import plotly.graph_objects as go
 
-DATA_PATH = Path(__file__).parent/"datos"/"processed"/"unam_resultados_2025.db"
-QUERIES_PATH = Path(__file__).parent/"datos"/"queries"
+# Ajustando rutas para trabajar desde la carpeta core
+DATA_PATH = Path(__file__).parent.parent/"datos"/"processed"/"unam_resultados_2025.db"
+QUERIES_PATH = Path(__file__).parent.parent/"datos"/"queries"
 
 # Inicializar el gestor de datos y cargar las consultas
 db = DataManager(DATA_PATH)
@@ -74,7 +75,9 @@ pio.templates['custom'] = GO_TEMPLETE
 pio.templates.default = 'plotly_white+custom'
 
 
-_areas_dict = {'A1': 'Área 1', 'A2': 'Área 2', 'A3': 'Área 3', 'A4':'Área 4' }
-_all_areas = {"all": 'Todos'}   
-_all_areas.update(_areas_dict)
-_scatter_selector = {'demanda': 'Demanda', 'oferta': 'Oferta', 'aciertos_minimos': 'Aciertos mínimos', 'seleccionados': 'Seleccionados'}
+AREAS_DICT = {'A1': 'Área 1', 'A2': 'Área 2', 'A3': 'Área 3', 'A4':'Área 4' }
+ALL_AREAS = {"all": 'Todos'}   
+ALL_AREAS.update(AREAS_DICT)
+SCATTER_SELECTOR = {'demanda': 'Demanda', 'oferta': 'Oferta', 'aciertos_minimos': 'Aciertos mínimos', 'seleccionados': 'Seleccionados'}
+
+CSS_FILE = Path(__file__).parent / 'styles' / 'style.css'

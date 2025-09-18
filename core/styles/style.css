@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+
+:root{    
+    --color-background: rgb(255, 240, 212);
+    --color-borders: rgb(153, 127, 83);
+    --phi-padding: 1.618em;
+
+}
+
+body{
+    background-color: var(--color-background);
+    font-family: 'Quicksand', serif;
+}
+
+h2,h3,h4{
+    text-align: center;
+}
+
+h2,h3{
+    font-weight: bold;
+}
+
+.bslib-value-box .value-box-area{
+    padding: 0;
+    text-align: center;
+}
+
+.square-information{
+    display: block;
+    border: 2.15px dotted;
+    border-color:var(--color-borders);
+    border-radius: 6.15px;
+    margin: 6.75em 1.45em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+
+.square-title{
+    background-color: var(--color-background);
+    display: flexbox;
+    border: 1.2px solid var(--color-borders);
+    border-radius: 7.12px;
+    margin: -4.22em 2em var(--phi-padding);
+    padding: 1.618em;
+}
+
+
+
