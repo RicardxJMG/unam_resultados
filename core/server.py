@@ -96,7 +96,7 @@ def server(input: Inputs, output: Outputs, session: Session):
     @render.ui 
     def _careers_demand_title(): 
         demand_type = "mayor" if input._higher_lower() == "Mayor" else "menor"
-        return ui.h4(f"Top 10 carreras con {demand_type} demanda", style="font-weight: bold;")
+        return ui.h4(f"Top 10 carreras con {demand_type} demanda")
    
     @reactive.calc 
     def filter_demand() -> pd.DataFrame:
@@ -120,7 +120,8 @@ def server(input: Inputs, output: Outputs, session: Session):
                 x = df.carrera.str.capitalize(), 
                 y = df.n_aspirantes, 
                 marker=dict(color=[AREA_COLORS[a] for a in df.id_area]),
-                showlegend=False
+                showlegend=False,
+                width = 0.6
             ), 
             col=1,row=1
         )
@@ -130,7 +131,7 @@ def server(input: Inputs, output: Outputs, session: Session):
                 go.Bar(
                     x=[None], y=[None],
                     marker=dict(color=AREA_COLORS[area]),
-                    name=AREAS_DICT[area],  # ← leyenda
+                    name=AREAS_DICT[area],  
                     showlegend=True
                 )
             )
@@ -142,7 +143,10 @@ def server(input: Inputs, output: Outputs, session: Session):
         
         return fig
     
-    # demanda por facultad
+     # -------
+    
+    # Esta parte corresponde a información sobre la demanda de facultades, y  una opción de mostrar el tipo de acreditado
+   
     
     @reactive.calc
     def facultad_segmentar() -> pd.DataFrame:
@@ -172,19 +176,18 @@ def server(input: Inputs, output: Outputs, session: Session):
         fig = make_subplots(rows=1, cols=1)
 
         if "id_area" not in df_facultades.columns:
-            # Caso "No": solo totales
             fig.add_trace(
                 go.Bar(
                     x=df_facultades["n_aspirantes"],
                     y=df_facultades["facultad"],
                     orientation="h",
-                    marker=dict(color="#399875"),
+                    marker=dict(color="#5e81ac"),
                     name="Total",
-                    showlegend=False,  # no necesitas leyenda aquí
+                    showlegend=False,
+                    width = 0.5
                 )
             )
         else:
-            # Caso "Si": segmentado por área, un trace por área
             for resultado in df_facultades["resultado"].unique():
                 tmp = df_facultades[df_facultades["resultado"] == resultado]
 
@@ -194,22 +197,22 @@ def server(input: Inputs, output: Outputs, session: Session):
                         y=tmp["facultad"],
                         orientation="h",
                         marker=dict( color = [RESULTS_COLORS[r] for r in tmp.resultado] ),
-                        name=resultado
+                        name=resultado,
+                        width = 0.5
                     )
                 )
 
-            fig.update_layout(legend = dict(title = 'Resultado'),barmode="stack")
-
+            fig.update_layout(legend = dict(title = 'Resultado', y  = -.08),barmode="stack")
+       
+        fig.update_layout(height = 675)
         fig.update_yaxes(categoryorder="array", categoryarray=orden_facultades)
 
         return fig
     
      # -------
     
-    # Esta parte corresponde al scatter plot, 
+    # Esta parte corresponde al scatter plot.
     
-    
-    # Reactive calculation that returns the filtered data and axis selections
     @reactive.calc
     def scatter_data() -> list[pd.DataFrame, str]:
         df = dfs[4].copy()
@@ -316,78 +319,4 @@ def server(input: Inputs, output: Outputs, session: Session):
         
         return fig
     
-    
-    
-    ## Esta parte esta pospuesta ya que no me llego a gustar de todo la visualización    
-    # @reactive.calc
-    # def show_results_demand() -> pd.DataFrame:
-    #     df = careers_filter()
-    #     selected = input._results_demand_selector()
-    #     by = ['id_area', 'carrera']
-        
-    #     if selected == 'Si': 
-    #         by.append('resultado')
-        
-            
-    #     return df.groupby(by=by, as_index=False)['n_aspirantes'].sum().sort_values(by='n_aspirantes', ascending=False)
-        
-    # @render_widget()
-    # def careers_demand(): 
-    #     df_demanda = careers_filter()
-        
-    #     total_por_carrera = df_demanda.groupby(by = ['id_area', 'carrera'])['n_aspirantes'].sum().reset_index()
-    #     top_carreras = total_por_carrera.nlargest(n= 10, columns='n_aspirantes')['carrera'].tolist()
-    #     bottom_carreras = total_por_carrera.nsmallest(n=10, columns='n_aspirantes')['carrera'].tolist()
-        
-    #     higher = df_demanda[df_demanda['carrera'].isin(top_carreras)]
-    #     lower = df_demanda[df_demanda['carrera'].isin(bottom_carreras)].sort_values(by = 'n_aspirantes')
-        
-    #     # names = ['No seleccionado', 'Cancelado', 'No presentado', 'Seleccionado'] if 'resultado' in df_demanda.columns else [None]
-        
-    #     fig = make_subplots(rows=1, cols=2, specs=[2*[{'type': 'xy'}]])
-        
-    #     # if names == [None]:
-    #     # Caso cuando no se muestran resultados
-    #     fig.add_trace(
-    #         go.Bar(
-    #             x=higher.carrera.str.capitalize(),
-    #             y=higher.n_aspirantes,
-    #             marker=dict(color=[AREA_COLORS[a] for a in higher.id_area])
-    #         ), row=1, col=1
-    #     ) 
-    #     fig.add_trace(
-    #         go.Bar(
-    #             x=lower.carrera.str.capitalize(),
-    #             y=lower.n_aspirantes,
-    #             marker=dict(color=[AREA_COLORS[a] for a in lower.id_area])
-    #         ), row=1, col=2
-    #     )
-    #     # else:
-    #     #     # Caso cuando se muestran resultados
-    #     #     for name in names:
-    #     #         mask = higher.resultado == name
-    #     #         fig.add_trace(
-    #     #             go.Bar(
-    #     #                 x=higher[mask].carrera.str.capitalize(),
-    #     #                 y=higher[mask].n_aspirantes,
-    #     #                 name=name,
-    #     #                 marker=dict(color=AREA_COLORS[higher[mask].id_area.iloc[0]] if len(higher[mask]) > 0 else '#000000')
-    #     #             ), row=1, col=1
-    #     #         )
-        
-    #     #         mask = lower.resultado == name
-    #     #         fig.add_trace(
-    #     #             go.Bar(
-    #     #                 x=lower[mask].carrera.str.capitalize(),
-    #     #                 y=lower[mask].n_aspirantes,
-    #     #                 name=name,
-    #     #                 marker=dict(color=AREA_COLORS[lower[mask].id_area.iloc[0]] if len(lower[mask]) > 0 else '#000000'),
-    #     #                 showlegend=False
-    #     #             ), row=1, col=2
-    #     #         )
-        
-    # fig.update_layout(barmode='stack')
-    
-    
-    
-    # return fig
+   

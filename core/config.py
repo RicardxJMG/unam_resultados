@@ -13,10 +13,10 @@ dfs = db.load_queries(QUERIES_PATH)
 
 
 AREA_COLORS = {
-    "A1": "#1B3B6F",  # Azul marino
-    "A2": "#2E8B57",  # Verde bosque
-    "A3": "#DAA520",  # Dorado / Ámbar
-    "A4": "#800020"   # Burdeos / Vino
+    "A1": "#5E81AC",  # Azul frío (frost blue)
+    "A2": "#A3BE8C",  # Verde Nord
+    "A3": "#EBCB8B",  # Amarillo suave
+    "A4": "#B48EAD"   # Violeta Nord
 }
 
 AREA_COLORS_ALT = {
@@ -29,10 +29,10 @@ AREA_COLORS_ALT = {
 RESULTS = ['Seleccionado', 'No seleccionado', 'No presentado', 'Cancelado']
 
 RESULTS_COLORS = {
-    RESULTS[0]: "#2CA02C",   # Verde brillante → éxito / aprobado
-    RESULTS[1]: "#D62728", # Rojo intenso → rechazo
-    RESULTS[2]: "#FF7F0E",   # Naranja → ausencia, advertencia
-    RESULTS[3]: "#7F7F7F"        # Gris neutro → estado inactivo
+    RESULTS[0]: "#A3BE8C",   # Verde brillante → éxito / aprobado
+    RESULTS[1]: "#BF616A", # Rojo intenso → rechazo
+    RESULTS[2]: "#D08770",   # Naranja → ausencia, advertencia
+    RESULTS[3]: "#4C566A"       # Gris neutro → estado inactivo
 }
 
 
@@ -41,33 +41,44 @@ RESULTS_COLORS = {
 
 GO_TEMPLETE  = go.layout.Template(
         layout=go.Layout(
-        plot_bgcolor="#f0ebd5",  # Similar to figure.facecolor
-        paper_bgcolor="#e9e0bb",  # Similar to axes.facecolor
-        title_font = dict(size=28, color="black", weight="bold"),
-        font_size=12,
-        xaxis=dict(
+        plot_bgcolor="#e5e9f0",  # nord5
+        paper_bgcolor="#d8dee9",  # nord4
+        
+        font = dict( 
+            family = "Quicksand",  
+            color = "#2e3440"
+        ),
+        
+        xaxis = dict(
             title_font_size=14,
             tickfont_size=11,
             showline=False,
-            mirror=False        
+            mirror=False,    
+            color = "#3b4252"  
         ),
         yaxis=dict(
             title_font_size=14,
             tickfont_size=11,
             showline=False,
-            mirror=False
-       
+            mirror=False,
+            color = "#3b4252"
         ),
         legend=dict(
             title_font=dict(size=14, weight="bold"),
-            font=dict(size=12)
+            font=dict(size=12), 
+            orientation = 'h', 
+            yanchor="top",
+            y=-0.25,
+            xanchor="center",
+            x=0.5
         ),
         annotations=[dict(
             font=dict(size=20, weight="bold")
         )],
-        # Deshabilitar spines (bordes) superior y derecho
         xaxis_showspikes=False,
-        yaxis_showspikes=False
+        yaxis_showspikes=False, 
+        height= 255,
+        margin=dict(t=10, b=10, l=30, r=30),  # espacio para título y leyenda
     )
 )
 

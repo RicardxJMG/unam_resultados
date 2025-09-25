@@ -12,7 +12,6 @@ organización del código de la aplicación web de visualización de
 resultados del examen de admisión de la UNAM.
 """
 
-# Importaciones principales
 from .config import (
     AREA_COLORS, AREA_COLORS_ALT, RESULTS, RESULTS_COLORS,
     ALL_AREAS, AREAS_DICT, SCATTER_SELECTOR,
@@ -22,20 +21,16 @@ from .ui import ui_page
 from .server import server
 from .data_manager import DataManager
 
-# Define los elementos que estarán disponibles al usar 'from core import *'
 __all__ = [
-    # Componentes principales
     'ui_page',
     'server',
     'DataManager',
     
-    # Constantes y configuraciones
     'AREA_COLORS',
     'AREA_COLORS_ALT',
     'RESULTS',
     'RESULTS_COLORS',
     'ALL_AREAS',
     'AREAS_DICT',
-    'SCATTER_SELECTOR',
-    'dfs'
+    'SCATTER_SELECTOR'
 ]
