@@ -57,7 +57,14 @@ h2,h3{
 }
 
 a{
-    color: var(--nord9)
+    color: var(--nord9);
+    word-break: break-all;
+    overflow-wrap: break-word;
+}
+
+
+a:hover{ 
+    opacity: 0.55;
 }
 
 
@@ -73,6 +80,10 @@ a{
 
 .form-select{
     background-color: var(--nord6);
+}
+
+.form-select:hover{
+    opacity: 0.75;
 }
 
 
@@ -149,6 +160,41 @@ hr{
 .text-about{
     color: var(--nord10);
     font-style: italic;
+}
+
+
+.fa {
+  padding: 1px;
+  font-size: 13px;
+  width: 15px;
+  text-align: center;
+  text-decoration: none;
+  margin: 1px 3px;
+}
+
+.fa-linkedin {
+  background: var(--nord10);
+  color: var(--nord6);
+}
+
+.fa-google{
+    background: var(--nord5);
+    color: var(--nord10);
+}
+
+.fa-github{
+    background: var(--nord4);
+    color: var(--nord3);    
+}
+
+ul li::marker{
+    content: '>>  ';
+    color: var(--nord3);
+}
+
+footer{
+    font-size: small;
+    opacity: 0.9;
 }
 
 

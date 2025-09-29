@@ -13,10 +13,14 @@ dfs = db.load_queries(QUERIES_PATH)
 
 
 AREA_COLORS = {
-    "A1": "#5E81AC",  # Azul frío (frost blue)
-    "A2": "#A3BE8C",  # Verde Nord
-    "A3": "#EBCB8B",  # Amarillo suave
-    "A4": "#B48EAD"   # Violeta Nord
+    "A1": "#5E81AC",  # nord 10
+    "A2": "#A3BE8C",  # nord 14
+    "A3": "#EBCB8B",  # nord 13
+    "A4": "#B48EAD",   # nord 15
+    "Área 1": "#5E81AC",  # nord 10
+    "Área 2": "#A3BE8C",  # nord 14
+    "Área 3": "#EBCB8B",  # nord 13
+    "Área 4": "#B48EAD",   # nord 15
 }
 
 AREA_COLORS_ALT = {

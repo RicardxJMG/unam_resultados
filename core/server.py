@@ -1,8 +1,9 @@
 import pandas as pd
-from numpy import interp
+from numpy import interp, linspace, histogram
 from plotly.subplots import make_subplots
 from shiny import Inputs,Outputs,Session, render, reactive, ui
 from shinywidgets import render_widget
+from scipy.stats import gaussian_kde
 
 from .config import *
 
@@ -291,32 +292,104 @@ def server(input: Inputs, output: Outputs, session: Session):
     @reactive.calc 
     def distribution_filter() -> pd.DataFrame: 
         area   = input._dist_areas()
-        sql = "SELECT * FROM resultados_2025"
-        return db.get_query(query=sql)        
-                
+        sql = f"SELECT id_aspirante, id_area, puntaje FROM resultados_2025"
         
+        if area == 'all': 
+            return db.get_query(query=sql)        
+        
+        # print(area) prints A'n
+        
+        sql = sql + f" WHERE id_area = '{area}'"
+        return db.get_query(query=sql).dropna()       
+    
+        
+        
+    @render.text 
+    def min_score() -> str: 
+        df = distribution_filter()
+    
+        return f'{df['puntaje'].min():.0f}'
+                
+    @render.text 
+    def avg_score() -> str:
+        df = distribution_filter()
+        return f'{df['puntaje'].mean():.0f}'
+    
+    @render.text
+    def max_score() -> str:     
+        df = distribution_filter()
+        return f'{df['puntaje'].max():.0f}'
         
     @render_widget
     def results_distribution() : 
-        df = distribution_filter() # ajustar este filtro porquue no faz nada kkkkkkk
-        
+        df = distribution_filter() # já
         fig = go.Figure()
+        temp = df.id_area.unique()
+        areas_order = list(AREAS_DICT.values())[::-1]
         
-        for area, area_df in df.groupby(['id_area']): 
-            x = len(area_df)*[AREAS_DICT[area[0]]]
-            fig.add_trace(
-                go.Violin(
-                          x = x,
-                          y = area_df.puntaje.dropna(),
-                          line_color  = AREA_COLORS[area[0]], 
-                          name = AREAS_DICT[area[0]],
-                          fillcolor= AREA_COLORS[area[0]], 
-                          opacity= 0.75,   
-                          meanline_visible = True,  
-                          meanline_color = "#D5D820",
-                          width=0.5)
+        if len(temp) != 1:
+            for area, area_df in df.groupby(['id_area']): 
+                y = len(area_df)*[AREAS_DICT[area[0]]]
+                fig.add_trace(
+                    go.Violin(
+                            y = y,
+                            x = area_df.puntaje,
+                            orientation='h',
+                            line_color  = AREA_COLORS[area[0]], 
+                            name = AREAS_DICT[area[0]],
+                            fillcolor= AREA_COLORS[area[0]], 
+                            opacity= 0.75,   
+                            meanline = dict(visible = True, color = "#1d2028", width = 1.25),
+                            width=1.2, side = 'positive')
+                    )
+                
+                
+            fig.update_yaxes(categoryorder="array", categoryarray=areas_order)
+        
+        else:     
+                
+            mean_value = df.puntaje.mean()
+            
+            fig.add_trace( 
+                go.Histogram(
+                    x = df.puntaje, 
+                    nbinsx= 60,
+                    histnorm='percent',
+                    name= AREAS_DICT[temp[0]],  
+                    marker_color = AREA_COLORS[temp[0]],
+                    opacity=0.5
                 )
+            )
+            
+            x_vals = linspace(df.puntaje.min(), df.puntaje.max(), 200)
+            kde = gaussian_kde(df.puntaje)
+            y_vals = kde(x_vals)
+            counts, _ = histogram(df.puntaje, bins=60)
+            counts_percent = counts / counts.sum() * 100
+
+            y_vals_scaled = y_vals / y_vals.max() * counts_percent.max()
+
+            fig.add_trace(
+                go.Scatter(
+                    x=x_vals,
+                    y=y_vals_scaled,
+                    mode="lines",
+                    line=dict(color=AREA_COLORS[temp[0]], width=2),
+                    name='KDE'
+                )
+            )
         
+            fig.add_vline(
+                x=mean_value,
+                line_width=2,
+                line_dash="dash",
+                line_color=AREA_COLORS[temp[0]],
+                annotation_text=f"<i>Promedio: {mean_value:.0f} aciertos</i>",
+                annotation_position="top", 
+                annotation=dict(x = mean_value + 9.5,y = 0.85, yref = 'paper', showarrow = False), 
+            )
+
+            
         return fig
     
    

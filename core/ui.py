@@ -3,9 +3,15 @@ from shinywidgets import output_widget
 from .config import ALL_AREAS, SCATTER_SELECTOR, CSS_FILE
 
 ui_page = ui.page_fluid(
-    
    
     ui.include_css(CSS_FILE),
+    
+    ui.head_content(
+        ui.tags.link(
+            rel="stylesheet",
+            href="https://cdnjs.cloudflare/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        )
+    ),
 
     ui.div({'class': 'info-panel'}, 
             ui.panel_title(title= ui.h1('Resultados del Examen de Admisión de la UNAM en el Sistema Escolarizado'), 
@@ -206,7 +212,7 @@ ui_page = ui.page_fluid(
        ),
         ui.row(
             ui.column(
-                2, 
+                3, 
                 ui.input_select(
                     id = '_dist_areas', 
                     label = "Seleccionar área", 
@@ -214,7 +220,29 @@ ui_page = ui.page_fluid(
                     selected= 'all'
                 )
             )
+        ),
+        
+        ui.row(
+            ui.column(4, 
+                ui.value_box(
+                    title=ui.HTML('Puntaje<br>mínimo'),
+                    value = ui.output_ui('min_score')
+                ),        
+            ),    
+            ui.column(4, 
+                ui.value_box(
+                    title=ui.HTML('Puntaje<br>promedio'),
+                    value = ui.output_ui('avg_score') 
+                    ),
+            ),    
+            ui.column(4, 
+                ui.value_box(
+                    title=ui.HTML('Puntaje<br>máximo'),
+                    value = ui.output_ui('max_score')
+                ),
+            )    
         ), 
+         
         ui.row(
             ui.column(
                 12,ui.card(
@@ -234,11 +262,11 @@ ui_page = ui.page_fluid(
            ui.HTML("""
             <p>Los datos fueron obtenidos de los siguientes sitios oficiales de la UNAM:</p>
             <ul>
-                <li> Resultados área 1: <a href = 'https://www.dgae.unam.mx/Licenciatura2025/resultados/15.html'>https://www.dgae.unam.mx/Licenciatura2025/resultados/15.html</a></li>
-                <li> Resultados área 2: <a href = 'https://www.dgae.unam.mx/Licenciatura2025/resultados/25.html'>https://www.dgae.unam.mx/Licenciatura2025/resultados/25.html</a></li>
-                <li> Resultados área 3: <a href = 'https://www.dgae.unam.mx/Licenciatura2025/resultados/35.html'>https://www.dgae.unam.mx/Licenciatura2025/resultados/35.html</a></li>
-                <li> Resultados área 4: <a href = 'https://www.dgae.unam.mx/Licenciatura2025/resultados/45.html'>https://www.dgae.unam.mx/Licenciatura2025/resultados/45.html</a></li>
-                <li> Oferta 2025: <a href = 'https://www.dgae.unam.mx/Licenciatura2025/oferta_lugares/oferta_licenciatura2025.html'>https://www.dgae.unam.mx/Licenciatura2025/oferta_lugares/oferta_licenciatura2025.html</a> </li>
+                <li> Resultados área 1: <a href = 'https://www.dgae.unam.mx/Licenciatura2025/resultados/15.html'> dgae.unam.mx/Licenciatura2025/resultados/15.html</a></li>
+                <li> Resultados área 2: <a href = 'https://www.dgae.unam.mx/Licenciatura2025/resultados/25.html'> dgae.unam.mx/Licenciatura2025/resultados/25.html</a></li>
+                <li> Resultados área 3: <a href = 'https://www.dgae.unam.mx/Licenciatura2025/resultados/35.html'> dgae.unam.mx/Licenciatura2025/resultados/35.html</a></li>
+                <li> Resultados área 4: <a href = 'https://www.dgae.unam.mx/Licenciatura2025/resultados/45.html'> dgae.unam.mx/Licenciatura2025/resultados/45.html</a></li>
+                <li> Oferta 2025: <a href = 'https://www.dgae.unam.mx/Licenciatura2025/oferta_lugares/oferta_licenciatura2025.html'> dgae.unam.mx/Licenciatura2025/oferta_lugares/oferta_licenciatura2025.html</a> </li>
             </ul>
             <p><span style = 'font-style: italic; color: var(--nord10);'> > Nota: Es probable que las páginas no estén disponibles pronto</span></p>       
             """), 
@@ -246,17 +274,19 @@ ui_page = ui.page_fluid(
            ui.HTML(""" 
             <footer>
                 <p> Página desarrollada en Python con Shiny por Ricardo Martínez García</p>
-                <p> El proceso de recolección de datos y desarrollo de esta página puedes consultarlo en mi repositorio de GitHub</p>
-                <p> Cualquier duda o sugerencia es bienvenida, mis datos de contacto son los siguientes: [[REDACTED]]</p>
+                <p> El proceso de recolección de datos y desarrollo de esta página lo puedes consultar <a href = 'https://github.com/RicardxJMG'> en mi repositorio de GitHub <span class = "fa fa-github"> </span> </a></p>
+                
+                <p> Cualquier duda o sugerencia es bienvenida. Puedes contactarme en: </p>
+                <ul>
+                    <li><span class="fa fa-linkedin"></span> LinkedIn: <a href = ' https://www.linkedin.com/in/ricardo-martínez-fismat/'> linkedin.com/in/ricardo-martínez-fismat </a> </li> 
+                    <li><span class="fa fa-google"></span> Correo electrónico: <a href = 'mailto:ricardojmartinezgarcia@gmail.com'>ricardojmartinezgarcia@gmail.com</a></li>
+                </ul>
 
             </footer>       
                    
             """)
-           
-           
            )
     
-    
-    
-    
 )
+
+
