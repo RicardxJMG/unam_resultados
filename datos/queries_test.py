@@ -23,7 +23,7 @@ def df_query(query_path: Path, conn: sql.Connection) -> pd.DataFrame:
 if __name__ == '__main__': 
     conn = init_connection()
     try: 
-        df = df_query(query_path = QUERIES_PATH / 'q5.sql', conn= conn)    
+        df = df_query(query_path = QUERIES_PATH / 'q6.sql', conn= conn)    
         print(df.head())
         # df = pd.read_sql("SELECT * FROM oferta_2024_2025", con = conn)        
     except Exception as e:

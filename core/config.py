@@ -9,7 +9,7 @@ QUERIES_PATH = Path(__file__).parent.parent/"datos"/"queries"
 
 # Inicializar el gestor de datos y cargar las consultas
 db = DataManager(DATA_PATH)
-dfs = db.load_queries(QUERIES_PATH)
+dfs = db.load_queries(queries_path=QUERIES_PATH,n = 6)
 
 
 AREA_COLORS = {

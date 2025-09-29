@@ -39,7 +39,7 @@ class DataManager:
         with self.database_connection() as conn: 
             return pd.read_sql(sql=query, con=conn)
         
-    def load_queries(self, queries_path: Path, n: int = 5) -> List[pd.DataFrame]:
+    def load_queries(self, queries_path: Path, n: int = 1) -> List[pd.DataFrame]:
         """
         Carga y ejecuta múltiples consultas SQL desde archivos.
         
