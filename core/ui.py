@@ -1,6 +1,6 @@
 from shiny import ui
 from shinywidgets import output_widget
-from .config import ALL_AREAS, SCATTER_SELECTOR, CSS_FILE
+from .config import ALL_AREAS, SCATTER_SELECTOR, CSS_FILE, CAREERS_LIST
 
 ui_page = ui.page_fluid(
    
@@ -48,7 +48,8 @@ ui_page = ui.page_fluid(
             ui.column( 
                 3, ui.value_box(
                     title = ui.HTML("Total de<br>aspirantes"), 
-                    value = ui.output_ui("total_aspirantes")
+                    value = ui.output_ui("total_aspirantes"),
+                    theme = ui.value_box_theme(bg = '#eceff4')
                     )
             ), 
             ui.column( 
@@ -69,7 +70,7 @@ ui_page = ui.page_fluid(
                 3,ui.value_box(
                     title = ui.HTML("Puntaje<br>perfecto"),
                     value = ui.output_ui('perfect_score'), 
-                    theme=ui.value_box_theme(bg="#88c0d0")
+                    theme=ui.value_box_theme(bg="#8fbcbb")
                 )
             )
         ),    
@@ -206,6 +207,7 @@ ui_page = ui.page_fluid(
         )    
     ), 
     
+    # panel sobre distribuciones por área - mejorar el titulo del panel 
     ui.div({'class': 'square-information'},
         ui.div({'class': 'square-title'}, 
                 ui.h3("¿Cómo fue la distribución del puntaje obtenido por los aspirantes?")
@@ -226,19 +228,22 @@ ui_page = ui.page_fluid(
             ui.column(4, 
                 ui.value_box(
                     title=ui.HTML('Puntaje<br>mínimo'),
-                    value = ui.output_ui('min_score')
+                    value = ui.output_ui('min_score'),
+                    theme = ui.value_box_theme(bg='#eceff4')
                 ),        
             ),    
             ui.column(4, 
                 ui.value_box(
                     title=ui.HTML('Puntaje<br>promedio'),
-                    value = ui.output_ui('avg_score') 
+                    value = ui.output_ui('avg_score'), 
+                    theme=ui.value_box_theme(bg = '#88c0d0')
                     ),
             ),    
             ui.column(4, 
                 ui.value_box(
                     title=ui.HTML('Puntaje<br>máximo'),
-                    value = ui.output_ui('max_score')
+                    value = ui.output_ui('max_score'),
+                    theme=ui.value_box_theme(bg = '#81a1c1')
                 ),
             )    
         ), 
@@ -248,7 +253,63 @@ ui_page = ui.page_fluid(
                 12,ui.card(
                     {'class': 'card-plot'},
                     ui.card_header(ui.h4('Distribución de resultados')),
-                    output_widget(id = 'results_distribution'),
+                    output_widget(id = 'areas_distribution'),
+                    ui.card_footer(ui.p("Bro, he really thinks he'll put something here"))
+                )
+            )
+        )
+    ),
+    
+    
+    
+    
+    # panel sobre la distribución de puntaje por carrera
+    ui.div({'class': 'square-information'},
+        ui.div({'class': 'square-title'}, 
+                ui.h3("Distribución del puntaje obtenido por los aspirantes por carrera")
+       ),
+        ui.row(
+            ui.column(
+                3, 
+                ui.input_select(
+                    id = '_dist_career', 
+                    label = "Seleccionar carrera", 
+                    choices= CAREERS_LIST, 
+                    selected= CAREERS_LIST[0]
+                )
+            )
+        ),
+        
+        ui.row(
+            ui.column(4, 
+                ui.value_box(
+                    title=ui.HTML('Aciertos<br>mínimos'),
+                    value = ui.output_ui('min_score_career'), 
+                    theme = ui.value_box_theme(bg = '#eceff4')
+                ),        
+            ),    
+            ui.column(4, 
+                ui.value_box(
+                    title=ui.HTML('Aspirantes<br>aceptados'),
+                    value = ui.output_ui('approved_career'), 
+                    theme = ui.value_box_theme(bg = "#a3be8c")
+                    ),
+            ),    
+            ui.column(4, 
+                ui.value_box(
+                    title=ui.HTML('Aspirantes<br>rechazados'),
+                    value = ui.output_ui('rejected_career'), 
+                    theme = ui.value_box_theme(bg="#bf616a", fg="#eceff4")
+                ),
+            )    
+        ), 
+         
+        ui.row(
+            ui.column(
+                12,ui.card(
+                    {'class': 'card-plot'},
+                    ui.card_header(ui.h4('Distribución de resultados')),
+                    output_widget(id = 'careers_distribution'),
                     ui.card_footer(ui.p("Bro, he really thinks he'll put something here"))
                 )
             )
@@ -257,6 +318,7 @@ ui_page = ui.page_fluid(
 
     ui.hr(),
     
+    # panel + footer
     ui.div({'class': 'info-panel'}, 
            ui.h3('Fuentes'),
            ui.HTML("""

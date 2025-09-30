@@ -41,7 +41,7 @@ class DataManager:
         
     def load_queries(self, queries_path: Path, n: int = 1) -> List[pd.DataFrame]:
         """
-        Carga y ejecuta múltiples consultas SQL desde archivos.
+        Carga y ejecuta múltiples consultas SQL desde archivos llamados q{n}.sql
         
         Args:
             queries_path (Path): Ruta al directorio con los archivos SQL

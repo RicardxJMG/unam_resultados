@@ -40,7 +40,7 @@
 body {
     background-color: var(--color-background);
     color: var(--color-text);
-    font-family: 'Quicksand', serif;
+    font-family: 'Quicksand', serif  !important; 
 }
 
 .container-fluid{
@@ -57,7 +57,7 @@ h2,h3{
 }
 
 a{
-    color: var(--nord9);
+    color: var(--nord10);
     word-break: break-all;
     overflow-wrap: break-word;
 }

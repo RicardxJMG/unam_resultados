@@ -15,7 +15,7 @@ resultados del examen de admisión de la UNAM.
 from .config import (
     AREA_COLORS, AREA_COLORS_ALT, RESULTS, RESULTS_COLORS,
     ALL_AREAS, AREAS_DICT, SCATTER_SELECTOR,
-    DataManager, dfs
+    DataManager, dfs, CAREERS_LIST
 )
 from .ui import ui_page
 from .server import server
@@ -32,5 +32,6 @@ __all__ = [
     'RESULTS_COLORS',
     'ALL_AREAS',
     'AREAS_DICT',
-    'SCATTER_SELECTOR'
+    'SCATTER_SELECTOR', 
+    'CAREERS_LIST'
 ]

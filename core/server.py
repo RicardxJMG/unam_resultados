@@ -286,7 +286,7 @@ def server(input: Inputs, output: Outputs, session: Session):
     
     # -------------------
     
-    # Esta parte corresponde al gráfico de distribución de resultados
+    # Esta parte corresponde al gráfico de distribución de resultados de las areas
     
     
     @reactive.calc 
@@ -321,7 +321,7 @@ def server(input: Inputs, output: Outputs, session: Session):
         return f'{df['puntaje'].max():.0f}'
         
     @render_widget
-    def results_distribution() : 
+    def areas_distribution() : 
         df = distribution_filter() # já
         fig = go.Figure()
         temp = df.id_area.unique()
@@ -392,4 +392,87 @@ def server(input: Inputs, output: Outputs, session: Session):
             
         return fig
     
-   
+    
+    
+    # -------------------
+    
+    # Esta parte corresponde a los gráficos correspondientes a las distribución de resultados por carrera
+       
+    @reactive.calc 
+    def career_dist() -> list[pd.DataFrame,int]: 
+        carrera   = input._dist_career()
+        df = dfs[5].query(f'carrera == "{carrera}"')        
+        
+        aciertos_minimos = df.aciertos_minimos.unique()[0]
+        
+        
+        return df, carrera, aciertos_minimos
+        
+        
+    @render.text 
+    def min_score_career() -> str: 
+        _,_,aciertos_minimos = career_dist()
+    
+        return f'{aciertos_minimos:.0f}'
+                
+    @render.text 
+    def rejected_career() -> str:
+        df,_,aciertos_minimos = career_dist()
+        return f'{df.query(f'puntaje < {aciertos_minimos}').shape[0]}'
+    
+    @render.text
+    def approved_career() -> str:     
+        df,_,aciertos_minimos = career_dist()
+        return f'{df.query(f'puntaje >= {aciertos_minimos}').shape[0]}'        
+    @render_widget
+    def careers_distribution() : 
+        df,carrera, aciertos_minimos = career_dist() 
+        
+        fig = go.Figure()
+        temp = df.id_area.unique()
+        x_vals = linspace(df.puntaje.min(), df.puntaje.max(), 200)
+        kde = gaussian_kde(df.puntaje)
+        y_vals = kde(x_vals)
+        counts, _ = histogram(df.puntaje, bins=60)
+        counts_percent = counts / counts.sum() * 100
+
+        y_vals_scaled = y_vals / y_vals.max() * counts_percent.max()        
+        
+        
+        
+        
+        fig.add_trace( 
+            go.Histogram(
+                x = df.puntaje, 
+                nbinsx= 60,
+                histnorm='percent',
+                name= carrera,  
+                marker_color = AREA_COLORS[temp[0]],
+                opacity=0.3
+            )
+        )
+        
+    
+
+        fig.add_trace(
+            go.Scatter(
+                x=x_vals,
+                y=y_vals_scaled,
+                mode="lines",
+                line=dict(color=AREA_COLORS[temp[0]], width=2.2),
+                name='KDE',
+            )
+        )
+    
+        fig.add_vline(
+            x=aciertos_minimos,
+            line_width=2,
+            line_dash="dash",
+            line_color=AREA_COLORS[temp[0]],
+            annotation_text=f"<i>Aciertos mínimos {aciertos_minimos:.0f}</i>",
+            annotation_position="top", 
+            annotation=dict(x = aciertos_minimos - 10,y = 0.85, yref = 'paper', showarrow = False), 
+        )
+
+            
+        return fig

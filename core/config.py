@@ -96,3 +96,5 @@ ALL_AREAS.update(AREAS_DICT)
 SCATTER_SELECTOR = {'demanda': 'Demanda', 'oferta': 'Oferta', 'aciertos_minimos': 'Aciertos mínimos', 'seleccionados': 'Seleccionados'}
 
 CSS_FILE = Path(__file__).parent / 'styles' / 'style.css'
+
+CAREERS_LIST = dfs[5].carrera.unique().tolist()
