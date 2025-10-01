@@ -81,7 +81,7 @@ ui_page = ui.page_fluid(
                     ui.card_header(ui.h4('Distribución de aspirantes al sistema escolarizado'),
                     ),
                     output_widget("areas_chart"),
-                    ui.card_footer(ui.p("Texto sobre el gráfico de pastel"))
+                    ui.card_footer(ui.p("Gráfico de pastel segmentado por área del conocimiento. Este gráfico muestra el total y porcentaje de aspirantes que aplicaron a una carrera de la UNAM."))
                 )
             )
         )
@@ -135,7 +135,7 @@ ui_page = ui.page_fluid(
                     {'class': 'card-plot'},
                     ui.card_header(ui.h4('Distribución de resultados')),
                     output_widget(id = 'areas_distribution'),
-                    ui.card_footer(ui.p("Bro, he really thinks he'll put something here"))
+                    ui.card_footer(ui.p("Gráfico que muestra la distribución de los aciertos obtenidos por los aspirantes en el examen de admisión, mostrando el mínimo, promedio y máximo de aciertos obtenidos en las cuatro áreas del conocimiento."))
                 )
             )
         )

@@ -113,7 +113,7 @@ hr{
     border-radius: 8px;
     margin-top: 5vw;
     margin-bottom: 10vw; 
-    padding: 4rem 2vw 2rem; 
+    padding: 5.2rem 2vw 2rem; 
     background-color: var(--color-background);
 }
 
@@ -198,14 +198,21 @@ footer{
 }
 
 
-@media (max-width: 768px) {
+@media (max-device-width: 768px) {
     .square-information {
         margin: 5.2rem 4vw 15vh; 
         padding: 5rem 4vw 2rem; 
     }
+
+    #demanda_facultades .plotly, #demanda_facultades .js-plotly-plot, #demanda_facultades div[class*="plotly"] {
+        /* max-height: 300px; */
+        overflow-x: auto;
+    }
+
+   
 }
 
-@media (max-width: 480px) {
+@media (min-device-width: 320px) and (max-device-width: 480px) {
     .square-information {
         margin: 6.2rem 3vw 10vh; 
         padding: 6rem 3vw 2rem;
@@ -223,6 +230,8 @@ footer{
     .card-plot{
         padding: auto;
     }
+
+
 }
 
 

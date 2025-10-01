@@ -359,9 +359,9 @@ def server(input: Inputs, output: Outputs, session: Session):
     @render.ui 
     def _demanda_facultades_title(): 
         selected = input._results_segment()
-        title = 'Facultades con mayor a menor demanda'
+        title = 'Facultades de mayor a menor demanda'
         if selected == 'Si':
-            return ui.h4(title + " segmentado por resultado")
+            return ui.h4(title + " segmentado por tipo de resultado")
 
         return ui.h4(title)
     
@@ -406,7 +406,7 @@ def server(input: Inputs, output: Outputs, session: Session):
 
             fig.update_layout(legend = dict(title = 'Resultado', y  = -.08),barmode="stack")
        
-        fig.update_layout(height = 1100, xaxis = dict(range = [0,22000]))
+        fig.update_layout(height = 1100, width = 720, xaxis = dict(range = [0,22000]))
         fig.update_yaxes(categoryorder="array", categoryarray=orden_facultades)
 
         return fig
