@@ -72,7 +72,7 @@ GO_TEMPLETE  = go.layout.Template(
             font=dict(size=12), 
             orientation = 'h', 
             yanchor="top",
-            y=-0.25,
+            y=1.18,
             xanchor="center",
             x=0.5
         ),
@@ -81,8 +81,8 @@ GO_TEMPLETE  = go.layout.Template(
         )],
         xaxis_showspikes=False,
         yaxis_showspikes=False, 
-        height= 255,
-        margin=dict(t=10, b=10, l=30, r=30),  # espacio para título y leyenda
+        height= 300,
+        margin=dict(t=100, b=100, l=100, r=100),  # espacio para título y leyenda
     )
 )
 
