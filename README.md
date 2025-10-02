@@ -26,11 +26,11 @@ Por el momento este visualizador esta enfocado en los resultados obtenidos del a
 
 Las siguiente imágenes son una muestra del visualizador:
 
-<p align = 'center'> <img src = './img/demo1.png' height = '225'></img></p>
+<p align = 'center'> <img src = './img/demo1.png'></img></p>
 
-<p align = 'center'> <img src = './img/demo2.png' height = '225'></img></p>
+<p align = 'center'> <img src = './img/demo2.png'></img></p>
 
-<p align = 'center'> <img src = './img/demo3.png' height = '225' width = 250></img></p>
+<p align = 'center'> <img src = './img/demo3.png'></img></p>
 
 
 El visualizador puede consultarse [aqui](https://www.google.com)
