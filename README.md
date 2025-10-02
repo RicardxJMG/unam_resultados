@@ -1,33 +1,42 @@
-# Scraping de oferta y resultados de la UNAM 2025
+# Visualizador de datos del examen de admisión de la *UNAM*
 
-Este repositorio contiene scripts desarrollados en Python para automatizar la extracción de información sobre los resultados del examen de admisión de la UNAM a nivel licenciatura en el sistema escolarizado, correspondiente al año 2025.
+Proyecto de análisis de datos desarrollado en Python para analizar los resultados obtenidos por aspirantes de ingreso a una licenciatura de la Universidad Nacional Autónoma de México.
+
+Este proyecto comprende desde el web-scraping para la recolección de datos en las páginas oficiales de la UNAM, limpieza, procesamiento de datos y desarrollo de la app-web del visualizador.
 
 ## Descripción general
 
-Este repositorio incluye dos scripts principales:
+### Sobre la obtención de los datos
 
-1. **scraping_puntaje**: Accede a cada una de las páginas de resultados por área, carrera y escuela asociadas para obtener tres tablas distintas: una con el contenido general de los resultados, otra con los nombres de las facultades/escuelas, y otra relacionada con las carreras. Los datos pueden consultarse en: [Resultados área 1](https://www.dgae.unam.mx/Licenciatura2025/resultados/15.html), [Resultados área 2](https://www.dgae.unam.mx/Licenciatura2025/resultados/25.html), [Resultados área 3](https://www.dgae.unam.mx/Licenciatura2025/resultados/35.html) y [Resultados área 4](https://www.dgae.unam.mx/Licenciatura2025/resultados/45.html).
+Los datos fueron obtenidos de páginas oficiales de la *UNAM*, los datos fueron obtenidos de las siguientes páginas: 
 
-2. **scraping_oferta**: Extrae la tabla de oferta de lugares de los años 2024 y 2025 para cada carrera y área. La tabla fue obtenida desde la página [Oferta de lugares](https://www.dgae.unam.mx/Licenciatura2025/oferta_lugares/oferta_licenciatura2025.html).
+1. [Resultados área 1](https://www.dgae.unam.mx/Licenciatura2025/resultados/15.html) 
+2. [Resultados área 2](https://www.dgae.unam.mx/Licenciatura2025/resultados/25.html)
+3. [Resultados área 3](https://www.dgae.unam.mx/Licenciatura2025/resultados/35.html)
+4. [Resultados área 4](https://www.dgae.unam.mx/Licenciatura2025/resultados/45.html).
+5. [Oferta de lugares](https://www.dgae.unam.mx/Licenciatura2025/oferta_lugares/oferta_licenciatura2025.html).
 
-**Las páginas anteriores no son estáticas**, por lo que el contenido podría no estar disponible hasta el próximo concurso de selección.
+Puedes consultar los scripts del scraping en los archivos [`scraping_oferta_2025.py`](./scraping/scraping_oferta_2025.py), [`scraping_puntaje.py`](./scraping/scraping_puntaje.py) y [`scraping_carreras_desc.py`](./scraping/scraping_carreras_desc.py)
 
-## Instalación de dependencias
+### Sobre el visualizador de resultados
 
-```bash
-pip install -r requirements.txt
-```
+El visualizador está desarrollado en python usando el framework *Shiny*. El objetivo de este visualizador es mostrar de manera interactiva un análisis sobre los resultados de obtenidos por los aspirantes de ingreso a la una de las carreras impartidas por la *UNAM*, para comparar la diferencia de los aspiranteS que logran ingresar y aquellos que no.
 
-Por otro lado, este proyecto utiliza el navegador Google Chrome y su driver correspondiente, por lo que será necesario que lo descargarlo y adaptar ambos scripts a la ruta correspondiente del driver. Para más información sobre ChromeDriver consulta [aquí](https://developer.chrome.com/docs/chromedriver/downloads).
+Por el momento este visualizador esta enfocado en los resultados obtenidos del año 2025 en la primera vuelta. En caso de encontrar los datos de años anteriores se añadirán.
 
-## En proceso
+Las siguiente imágenes son una muestra del visualizador:
 
-Se está trabajando en una aplicación web con [shiny](https://shiny.posit.co/) con python para visualizar los datos. 
+<p align = 'center'> <img src = './img/demo1.png' height = '225'></img></p>
+
+<p align = 'center'> <img src = './img/demo2.png' height = '225'></img></p>
+
+<p align = 'center'> <img src = './img/demo3.png' height = '225' width = 250></img></p>
+
+
+El visualizador puede consultarse [aqui](https://www.google.com)
 
 ## Consideraciones legales y éticas
 
 Los datos extraídos por estos scripts provienen de páginas públicas del sitio oficial de la DGAE-UNAM.
-
-Este repositorio no publica ni redistribuye los datos extraídos, y los scripts han sido desarrollados únicamente con fines educativos y de exploración técnica.
 
 Si la institución considera que este repositorio incumple sus políticas, el contenido será retirado o ajustado según se solicite.

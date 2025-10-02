@@ -340,7 +340,7 @@ ui_page = ui.page_fluid(
            ui.HTML(""" 
             <footer>
                 <p> Página desarrollada en Python con Shiny por Ricardo Martínez García</p>
-                <p> El proceso de recolección de datos y desarrollo de esta página lo puedes consultar <a href = 'https://github.com/RicardxJMG'> en mi repositorio de GitHub <span class = "fa fa-github"> </span> </a></p>
+                <p> El proceso de recolección de datos y desarrollo de esta página lo puedes consultar <a href = 'https://github.com/RicardxJMG/unam_resultados'> en mi repositorio de GitHub <span class = "fa fa-github"> </span> </a></p>
                 
                 <p> Cualquier duda o sugerencia es bienvenida. Puedes contactarme en: </p>
                 <ul>
