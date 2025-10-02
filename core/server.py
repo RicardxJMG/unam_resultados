@@ -342,6 +342,15 @@ def server(input: Inputs, output: Outputs, session: Session):
         
         return fig
     
+    @render.ui 
+    def careers_demand_footer(): 
+        selected = input._careers_demand_selector()
+        
+        return ui.p(f'Gráfico que muestra las carreras con {selected.lower()} demanda')
+        
+    
+    
+    
      # -------
     
     # Esta parte corresponde a información sobre la demanda de facultades, y  una opción de mostrar el tipo de acreditado
@@ -434,6 +443,15 @@ def server(input: Inputs, output: Outputs, session: Session):
         
         
         return ui.h4(f'Relación entre {x_axis}, {y_axis} ponderado por {s}')    
+    
+    @render.ui
+    def scatter_plot_footer():
+        x_axis = SCATTER_SELECTOR[input._scatter_x()]
+        y_axis = SCATTER_SELECTOR[input._scatter_y()]
+        s = SCATTER_SELECTOR[input._scatter_size()] 
+        
+        
+        return ui.p(f'Gráfico de puntos que relaciona {x_axis.lower()} y {y_axis.lower()}, cada punto tiene un tamaño que depende de {s.lower()}.')    
     
     
     @render_widget

@@ -1,4 +1,4 @@
-from core.config import *
+# from core.config import *
 from core.ui import ui_page
 from core.server import server
 from shiny import App

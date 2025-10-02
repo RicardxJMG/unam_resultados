@@ -191,7 +191,7 @@ ui_page = ui.page_fluid(
                     {'class': 'card-plot'},
                     ui.card_header(ui.h4('Distribución de resultados')),
                     output_widget(id = 'careers_distribution'),
-                    ui.card_footer(ui.p("Bro, he really thinks he'll put something here"))
+                    ui.card_footer(ui.p(" Gráfico que muestra la distribución de los aciertos obtenidos de los aspirantes en el examen de admisión para una carrera específica, mostrando los aciertos mínimos, aspirantes aceptados y rechazados de la carrera."))
                 )
             )
         )
@@ -230,7 +230,7 @@ ui_page = ui.page_fluid(
                     {'class': 'card-plot'},
                     ui.card_header(ui.output_ui("_careers_demand_title")),
                     output_widget(id = 'careers_demand'), 
-                    ui.card_footer(ui.p("Texto para el gráfico de barras"))
+                    ui.card_footer(ui.output_ui(id = 'careers_demand_footer') )
                 )
             )
         )        
@@ -256,7 +256,7 @@ ui_page = ui.page_fluid(
                     {'class': 'card-plot'},
                     ui.card_header(ui.output_ui(id = '_demanda_facultades_title')),
                     output_widget('demanda_facultades'),
-                    ui.card_footer(ui.p("otro texto aquí"))
+                    ui.card_footer(ui.p("Gráfico que muestra las facultades o escuelas que presentaron mayor demanda debido a las carreras que ofrecen."))
                 ) 
             )          
         )
@@ -312,7 +312,7 @@ ui_page = ui.page_fluid(
                     {'class': 'card-plot'},
                     ui.card_header( ui.output_ui(id = 'scatter_plot_title')),
                     output_widget("scatter_oda"), 
-                    ui.card_footer(ui.p("Another generic text"))
+                    ui.card_footer(ui.output_ui(id='scatter_plot_footer'))
                 )
             )
         )    

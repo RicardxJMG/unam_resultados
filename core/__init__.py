@@ -9,13 +9,13 @@ Este paquete contiene los componentes principales de la aplicación:
 
 El paquete está estructurado para facilitar el mantenimiento y la
 organización del código de la aplicación web de visualización de
-resultados del examen de admisión de la UNAM.
+resultados del examen de admisión de la UNAM para futuros resultados.
 """
 
 from .config import (
-    AREA_COLORS, AREA_COLORS_ALT, RESULTS, RESULTS_COLORS,
+    AREA_COLORS, RESULTS, RESULTS_COLORS,
     ALL_AREAS, AREAS_DICT, SCATTER_SELECTOR,
-    DataManager, dfs, CAREERS_LIST
+    DataManager, CAREERS_LIST
 )
 from .ui import ui_page
 from .server import server
@@ -27,7 +27,6 @@ __all__ = [
     'DataManager',
     
     'AREA_COLORS',
-    'AREA_COLORS_ALT',
     'RESULTS',
     'RESULTS_COLORS',
     'ALL_AREAS',
