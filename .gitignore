@@ -3,5 +3,5 @@ __pycache__/
 /visualizer/datos/processed/*.xlsx
 /visualizer/requirements.txt
 python-version
-./visualizer/rsconnect-python/
+/visualizer/rsconnect-python/
 .venv/
