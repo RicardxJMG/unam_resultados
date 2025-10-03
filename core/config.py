@@ -4,8 +4,8 @@ import plotly.io as pio
 import plotly.graph_objects as go
 
 # Ajustando rutas para trabajar desde la carpeta core
-DATA_PATH = Path(__file__).parent.parent/"datos"/"processed"/"unam_resultados_2025.db"
-QUERIES_PATH = Path(__file__).parent.parent/"datos"/"queries"
+DATA_PATH = Path(__file__).parent/"datos"/"processed"/"unam_resultados_2025.db"
+QUERIES_PATH = Path(__file__).parent/"datos"/"queries"
 
 # Inicializar el gestor de datos y cargar las consultas
 db = DataManager(DATA_PATH)

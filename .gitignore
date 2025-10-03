@@ -1,4 +1,4 @@
 __pycache__/
-datos/raw/
-datos/processed/*.xlsx
+/core/datos/raw/
+/core/datos/processed/*.xlsx
 .venv/
