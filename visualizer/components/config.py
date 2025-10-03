@@ -1,11 +1,11 @@
-from core.data_manager import DataManager
+from .data_manager import DataManager
 from pathlib import Path
 import plotly.io as pio
 import plotly.graph_objects as go
 
 # Ajustando rutas para trabajar desde la carpeta core
-DATA_PATH = Path(__file__).parent/"datos"/"processed"/"unam_resultados_2025.db"
-QUERIES_PATH = Path(__file__).parent/"datos"/"queries"
+DATA_PATH = Path(__file__).parent.parent/"datos"/"processed"/"unam_resultados_2025.db"
+QUERIES_PATH = Path(__file__).parent.parent/"datos"/"queries"
 
 # Inicializar el gestor de datos y cargar las consultas
 db = DataManager(DATA_PATH)
@@ -95,6 +95,6 @@ ALL_AREAS = {"all": 'Todos'}
 ALL_AREAS.update(AREAS_DICT)
 SCATTER_SELECTOR = {'demanda': 'Demanda', 'oferta': 'Oferta', 'aciertos_minimos': 'Aciertos mínimos', 'seleccionados': 'Seleccionados'}
 
-CSS_FILE = Path(__file__).parent / 'styles' / 'style.css'
+CSS_FILE = Path(__file__).parent.parent/ 'styles' / 'style.css'
 
 CAREERS_LIST = dfs[5].carrera.unique().tolist()

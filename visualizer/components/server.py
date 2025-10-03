@@ -5,7 +5,7 @@ from shiny import Inputs,Outputs,Session, render, reactive, ui
 from shinywidgets import render_widget
 from scipy.stats import gaussian_kde
 
-from core.config import *
+from .config import *
 
 
 
