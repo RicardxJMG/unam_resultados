@@ -1,4 +1,7 @@
 __pycache__/
 /core/datos/raw/
 /core/datos/processed/*.xlsx
+/core/requirements.txt
+.python-version
+./core/rsconnect-python/
 .venv/

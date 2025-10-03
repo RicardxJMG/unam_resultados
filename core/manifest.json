@@ -3,22 +3,28 @@
     "locale": "es_MX",
     "metadata": {
         "appmode": "python-shiny",
-        "entrypoint": "core/app.py"
+        "entrypoint": "core.app"
     },
     "files": {
-        "core/app.py": {
+        "app.py": {
             "checksum": ""
         },
-        "core/ui.py": {
+        "ui.py": {
             "checksum": ""
         },
-        "core/server.py": {
+        "server.py": {
             "checksum": ""
         },
-        "core/config.py": {
+        "config.py": {
             "checksum": ""
         },
-        "core/data_manager.py": {
+        "data_manager.py": {
+            "checksum": ""
+        },
+        "__init__.py": {
+            "checksum": ""
+        },
+        "datos/__init__.py": {
             "checksum": ""
         },
         "datos/processed/unam_resultados_2025.db": {
@@ -27,19 +33,19 @@
         "datos/queries/q1.sql": { 
             "checksum": ""
         },
-        "datos/queries/q2.sql":{
+        "datos/queries/q2.sql": {
             "checksum": ""
         },
-        "datos/queries/q3.sql":{
+        "datos/queries/q3.sql": {
             "checksum": ""
         },
-        "datos/queries/q4.sql":{
+        "datos/queries/q4.sql": {
             "checksum": ""
         },
-        "datos/queries/q5.sql":{
+        "datos/queries/q5.sql": {
             "checksum": ""
         },
-        "datos/queries/q6.sql":{
+        "datos/queries/q6.sql": {
             "checksum": ""
         }
     }

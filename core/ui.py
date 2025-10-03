@@ -1,6 +1,6 @@
 from shiny import ui
 from shinywidgets import output_widget
-from .config import ALL_AREAS, SCATTER_SELECTOR, CSS_FILE, CAREERS_LIST
+from core.config import ALL_AREAS, SCATTER_SELECTOR, CSS_FILE, CAREERS_LIST
 
 ui_page = ui.page_fluid(
    

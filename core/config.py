@@ -1,4 +1,4 @@
-from .data_manager import DataManager
+from core.data_manager import DataManager
 from pathlib import Path
 import plotly.io as pio
 import plotly.graph_objects as go
